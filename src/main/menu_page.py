@@ -5,19 +5,6 @@ class Menu_Page(ttk.Frame):
     
     def __init__(self, master, frames=None, borderwidth=None, relief=None):
 
-        """
-        Allows you to view the To Do List page.
-
-        Parameters:
-        page_name (string): String key for frames dictionary
-
-        Returns:
-        void: Displays To Do List
-        """
-        def show_page(page_name):
-            self.pack_forget()
-            self.frames[page_name].pack(fill='both', expand=True)
-
         # Create menu page object
         super().__init__(master=master, borderwidth=borderwidth, relief=relief)
         self.frames = frames
@@ -30,7 +17,7 @@ class Menu_Page(ttk.Frame):
         # Create children widgets
         ttk.Label(master=frame_1, text='Hello User!', font=('Calibri', 17)).pack()
         ttk.Label(master=frame_2, text='Welcome to your To Do App!', font=('Calibri', 17)).pack()
-        ttk.Button(master=frame_3, text='View To Do List', command=lambda: show_page('todo_list_page')).pack()
+        ttk.Button(master=frame_3, text='View To Do List', command=lambda: self.show_page('todo_list_page')).pack()
 
         # Pack everything
         frame_1.pack()
@@ -40,3 +27,16 @@ class Menu_Page(ttk.Frame):
 
     def set_frames(self, frames):
         self.frames = frames
+
+    """
+    Allows you to view the To Do List page.
+
+    Parameters:
+    page_name (string): String key for frames dictionary
+
+    Returns:
+    void: Displays To Do List
+    """
+    def show_page(self, page_name):
+        self.pack_forget()
+        self.frames[page_name].pack(fill='both', expand=True)

@@ -1,32 +1,80 @@
 import tkinter as tk
 import ttkbootstrap as ttk
+from PIL import Image, ImageTk
 
 class Todo_List_Page(ttk.Frame):
 
     def __init__(self, master, test_item_list, frames=None, borderwidth=None, relief=None):
 
         """
-        Allows you to view the To Do List page.
+        Allows user to delete todo item
 
         Parameters:
-        page_name (string): String key for frames dictionary
+        N/A
 
         Returns:
-        void: Displays To Do List
+        void: Deletes todo item
         """
-        def show_page(page_name):
-            self.pack_forget()
-            self.frames[page_name].pack(fill='both', expand=True)
+        def delete_todo_item():
+            pass
 
         super().__init__(master=master, borderwidth=borderwidth, relief=relief)
         self.frames = frames
         self.test_item_list = test_item_list
+        self.image_refs = []
+        container = ttk.Frame(master=self)
 
+        # Icon loadings
+        pencil_image_path = 'C:\\Users\\gabe\\Documents\\my-vscode\\projects\\todo-app\\src\\icons\\pencil-icon.png'
+        pencil_icon = self.load_image(pencil_image_path)
+        x_image_path = 'C:\\Users\\gabe\\Documents\\my-vscode\\projects\\todo-app\\src\\icons\\x-icon.jpg'
+        x_icon = self.load_image(x_image_path)
+
+        # Create todo item frames
         for todo_item in test_item_list:
-            frame = ttk.Frame(master=self, borderwidth=10, relief='groove', padding='100 20')
-            ttk.Label(master=frame, text=todo_item.desc).pack()
+            frame = ttk.Frame(master=container, borderwidth=10, relief='groove', padding='100 20')
+
+            ttk.Checkbutton(master=frame, variable=todo_item.is_checked).pack(side='left', padx=5)
+            ttk.Label(master=frame, text=todo_item.desc, textvariable=todo_item.desc).pack(side='left', padx=20)
+            ttk.Button(master=frame, image=x_icon, command=delete_todo_item).pack(side='right', padx=5)
+            ttk.Button(master=frame, image=pencil_icon, command=lambda item=todo_item: self.frames['edit_todo_page'].edit_todo_item(item)).pack(side='right', padx=5)
             frame.pack(pady=10)
-        # ttk.Label(master=self, text='Hello loyal viewers!', font=('Calibri', 17)).pack()
+        
+        container.pack(fill='both', expand=True)
+
+        # Bottom main menu button
+        bottom_frame = ttk.Frame(master=self)
+        ttk.Button(master=bottom_frame, text='Main Menu', command=lambda: self.show_page('menu_page')).pack()
+        bottom_frame.pack(side='bottom', pady=10)
 
     def set_frames(self, frames):
         self.frames = frames
+
+    """
+    Allows user to view the To Do List page.
+
+    Parameters:
+    page_name (string): String key for frames dictionary
+
+    Returns:
+    void: Displays To Do List
+    """
+    def show_page(self, page_name):
+        self.pack_forget()
+        self.frames[page_name].pack(fill='both', expand=True)
+
+    """
+    Loads images
+
+    Parameters:
+    image_path (string): String to store image path
+
+    Returns:
+    PhotoImage: Object storing image
+    """
+    def load_image(self, image_path):
+        image = Image.open(image_path)
+        image = image.resize((15, 15))
+        icon = ImageTk.PhotoImage(image)
+        self.image_refs.append(icon)
+        return icon
