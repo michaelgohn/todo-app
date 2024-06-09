@@ -17,9 +17,9 @@ todo_item_2 = Todo_Item(tk.StringVar(value='Test Todo Item 2'), tk.BooleanVar(va
 todo_item_list = [todo_item_1, todo_item_2]
 
 # Create Main Menu
-add_todo_page = Add_Todo_Page(master=window)
+add_todo_page = Add_Todo_Page(master=window, todo_item_list=todo_item_list)
 edit_todo_page = Edit_Todo_Page(master=window)
-todo_list_page = Todo_List_Page(master=window, test_item_list=todo_item_list)
+todo_list_page = Todo_List_Page(master=window, todo_item_list=todo_item_list)
 menu_page = Menu_Page(master=window)
 
 # Populate frames dictionary

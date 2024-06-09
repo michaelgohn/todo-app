@@ -15,7 +15,7 @@ class Edit_Todo_Page(ttk.Frame):
 
         ttk.Entry(master=top_frame, width=30, font='Calibri 17', textvariable=self.item_desc).pack()
         ttk.Button(master=bottom_frame, width=30, text='Save', command=lambda: self.save_desc(self.item_desc)).pack(side='left', padx=10)
-        ttk.Button(master=bottom_frame, width=30, text='Cancel').pack(side='right', padx=10)
+        ttk.Button(master=bottom_frame, width=30, text='Cancel', command=lambda: self.show_page('todo_list_page')).pack(side='right', padx=10)
 
         top_frame.pack()
         bottom_frame.pack()
@@ -23,25 +23,32 @@ class Edit_Todo_Page(ttk.Frame):
     def set_frames(self, frames):
         self.frames = frames
 
+    """
+    Saves the new description of the todo item
+
+    Parameters:
+    new_desc (tk.StringVar): tkinter String variable to track entry input
+
+    Returns:
+    void: Saves todo item's new description
+    """
     def save_desc(self, new_desc):
         self.item_to_edit.desc.set(new_desc.get())
-        print(f'self.item_to_edit desc: {self.item_to_edit.desc}')
         self.show_page('todo_list_page')
 
     """
-    Allows user to edit todo item
+    Prepares necessary variables on edit todo page
 
     Parameters:
     todo_item (Todo_Item): Item to be edited
 
     Returns:
-    void: Edits todo item
+    void: Preps variables
     """
-    def edit_todo_item(self, todo_item):
+    def prepare_edit_page(self, todo_item):
         self.frames['todo_list_page'].show_page('edit_todo_page')
         self.item_to_edit = todo_item
-        print(f'todo_item desc: {todo_item.desc.get()}')
-        print(f'self.item_to_edit desc: {self.item_to_edit.desc.get()}')
+        self.item_desc.set(todo_item.desc.get())
 
     """
     Allows you to view the To Do List page.
