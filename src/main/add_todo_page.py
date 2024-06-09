@@ -18,13 +18,32 @@ class Add_Todo_Page(ttk.Frame):
 
         ttk.Entry(master=top_frame, width=30, font='Calibri 17', textvariable=self.item_desc).pack()
         ttk.Button(master=bottom_frame, width=30, text='Add', command=self.add_todo_item).pack(side='left', padx=10)
-        ttk.Button(master=bottom_frame, width=30, text='Cancel', command=lambda: self.show_page('todo_list_page')).pack(side='right', padx=10)
+        ttk.Button(master=bottom_frame, width=30, text='Cancel', command=self.cancel_add).pack(side='right', padx=10)
 
         top_frame.pack()
         bottom_frame.pack()
 
     def set_frames(self, frames):
         self.frames = frames
+
+    def set_item_desc(self, item_desc):
+        self.item_desc.set(item_desc)
+
+    def get_item_desc(self):
+        return self.item_desc
+    
+    """
+    Cancels the addition of a new todo item by resetting the self.item_desc and sending the user back to todo_list_page
+
+    Parameters:
+    N/A
+
+    Returns:
+    void
+    """
+    def cancel_add(self):
+        self.item_desc.set('Item Description')
+        self.show_page('todo_list_page')
 
     """
     Creates todo item and adds it to todo item list. Then shows todo_list_page.
@@ -46,6 +65,7 @@ class Add_Todo_Page(ttk.Frame):
             self.todo_item_list.append(todo_item)
             self.frames['todo_list_page'].create_item(todo_item)
             self.show_page('todo_list_page')
+            self.item_desc.set('Item Description')
             print(self.todo_item_list)
 
     """
